@@ -1,26 +1,17 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { ReactElement } from 'react';
+import { Provider } from 'react-redux';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+import Routes from 'Routes';
+import Store from 'Store';
+import GlobalStyles from 'Theme/GlobalStyles';
 
-export default App;
+const APP: React.FC = (): ReactElement => (
+	<React.Fragment>
+		<Provider store={Store}>
+			<GlobalStyles />
+			<Routes />
+		</Provider>
+	</React.Fragment>
+);
+
+export default APP;

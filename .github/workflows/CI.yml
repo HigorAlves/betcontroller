@@ -1,0 +1,49 @@
+name: CI
+
+on:
+ pull_request:
+  branches:
+   - master
+
+jobs:
+ ci:
+  name: CI
+  runs-on: ubuntu-18.04
+  env:
+   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+ 
+  steps:
+   - name: Checkout Repo
+     uses: actions/checkout@master
+     with:
+      fetch-depth: 0
+     
+   - name: Install NodeJS
+     uses: actions/setup-node@v1
+     with:
+      node-version: '12.x'
+      
+   - name: Install dependencies
+     run: npm i
+      
+   - name: Get npm cache directory
+     id: npm-cache
+     run: |
+       echo "::set-output name=dir::$(npm config get cache)"
+   - uses: actions/cache@v1
+     with:
+      path: ${{ steps.npm-cache.outputs.dir }}
+      key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+      restore-keys: |
+       ${{ runner.os }}-node-
+
+   - name: Check tests
+     run: npm test
+     env:
+      CI: true
+   
+   - name: Check linting
+     run: npm run lint
+     
+   - name: Check commit message
+     uses: wagoid/commitlint-github-action@v1
