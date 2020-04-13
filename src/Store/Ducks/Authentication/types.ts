@@ -17,6 +17,7 @@ export interface AuthenticationData {
 	photoURL: string;
 	email: string;
 	role: string;
+	uid: string;
 }
 
 export interface AuthenticationState {

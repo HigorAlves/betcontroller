@@ -7,7 +7,7 @@ import rootReducer from './Ducks/rootReducer';
 import rootSaga from './Ducks/rootSaga';
 
 export interface ApplicationState {
-	authentication: AuthenticationState;
+	AuthenticationState: AuthenticationState;
 }
 
 const sagaMiddleware = createSagaMiddleware();

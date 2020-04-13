@@ -14,7 +14,9 @@ export function* Signin(action: AuthenticationActions): any {
 		const { email, password, callback } = action.payload;
 
 		const result = yield call([auth, auth.signInWithEmailAndPassword], email, password);
-		const { displayName, emailVerified, isAnonymous, phoneNumber, photoURL } = result.user;
+		const { displayName, emailVerified, isAnonymous, phoneNumber, photoURL, uid } = result.user;
+
+		localStorage.setItem('uid', uid);
 
 		yield Firebase.auth()
 			.currentUser?.getIdTokenResult()
@@ -31,7 +33,7 @@ export function* Signin(action: AuthenticationActions): any {
 			})
 			.catch(error => console.log(error));
 
-		yield put(loginSuccess({ displayName, emailVerified, isAnonymous, phoneNumber, photoURL, email, role }));
+		yield put(loginSuccess({ displayName, emailVerified, isAnonymous, phoneNumber, photoURL, email, role, uid }));
 	} catch (error) {
 		Notification('error', error.code, error.message);
 		yield put(loginFailure(error));
