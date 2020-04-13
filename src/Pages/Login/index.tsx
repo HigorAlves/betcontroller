@@ -6,7 +6,7 @@ import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
 import { Col, Form, Input, Button, Divider } from 'antd';
 
-import { Title, Text, RowContainer } from './styles';
+import { Title, RowContainer } from './styles';
 
 const LOGIN = ({ history }: RouteComponentProps): ReactElement => {
 	const dispatch = useDispatch();
@@ -19,10 +19,9 @@ const LOGIN = ({ history }: RouteComponentProps): ReactElement => {
 	return (
 		<RowContainer align='middle'>
 			<Col style={{ backgroundColor: '#fff', padding: 20, borderRadius: 5, textAlign: 'center' }} md={{ offset: 1, span: 8 }} sm={24}>
-				<Title>Authorization</Title>
-				<Text>
-					of your <strong style={{ color: '#8C37D8' }}>account</strong>
-				</Text>
+				<Title>
+					Entre com sua <strong style={{ color: '#8C37D8' }}>conta</strong>
+				</Title>
 				<Form form={form} onFinish={onFinish}>
 					<Form.Item
 						name='email'
@@ -31,21 +30,21 @@ const LOGIN = ({ history }: RouteComponentProps): ReactElement => {
 							{ required: true, message: 'É preciso inserir o email!' }
 						]}
 					>
-						<Input prefix={<UserOutlined className='site-form-item-icon' />} placeholder='Username' />
+						<Input prefix={<UserOutlined className='site-form-item-icon' />} placeholder='E-mail' />
 					</Form.Item>
 
 					<Form.Item name='password' rules={[{ required: true, message: 'É preciso inserir uma senha!' }]}>
-						<Input.Password prefix={<LockOutlined className='site-form-item-icon' />} type='password' placeholder='Password' />
+						<Input.Password prefix={<LockOutlined className='site-form-item-icon' />} type='password' placeholder='Senha' />
 					</Form.Item>
 
 					<Form.Item>
 						<Button type='primary' htmlType='submit' block>
-							Sign in
+							Entrar
 						</Button>
 					</Form.Item>
 				</Form>
 				<Divider />
-				<Link to='/resetarsenha'>Forgot my password</Link>
+				<Link to='/resetarsenha'>Esqueci minha senha</Link>
 			</Col>
 		</RowContainer>
 	);

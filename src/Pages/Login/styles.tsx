@@ -14,7 +14,3 @@ export const RowContainer = styled(Row)`
 export const Title = styled.h1`
 	font-weight: bold;
 `;
-
-export const Text = styled.h1`
-	font-weight: bold;
-`;

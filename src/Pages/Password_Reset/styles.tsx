@@ -1,16 +1,12 @@
+import { Row } from 'antd';
 import styled from 'styled-components';
-import Colors from 'Theme/Colors';
 
-export const Container = styled.div`
-	background-color: ${Colors.background};
+import BgImage from '../../Assets/Images/bg.jpg';
+
+export const RowContainer = styled(Row)`
+	background-image: linear-gradient(0deg, rgba(27, 28, 31, 1), rgba(140, 55, 216, 0.4)), url(${BgImage});
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: rgba(27, 28, 31, 1);
 	height: 100vh;
-`;
-
-export const Image = styled.img`
-	display: block;
-	padding-top: 50px;
-	margin-bottom: 50px;
-	margin-left: auto;
-	margin-right: auto;
-	width: 30%;
 `;
