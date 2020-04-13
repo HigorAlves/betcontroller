@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { ArrowUpOutlined } from '@ant-design/icons';
 import { Breadcrumb, Statistic, Card, Row, Col, InputNumber, Form, Button, Table, Radio } from 'antd';
 
-const IndexPage = () => {
+const IndexPage = (props: RouteComponentProps) => {
 	const [oddValue, setOddValue] = useState(0);
 	const [betValue, setBetValue] = useState(0);
 	const [data, setData] = useState<any>([{ bet: 1.5, key: 52.345829595968475, odd: 1, return: 1.5 }]);
@@ -88,9 +89,11 @@ const IndexPage = () => {
 					</Card>
 				</Col>
 			</Row>
-			<Button block type='primary' style={{ marginTop: 40 }}>
+
+			<Button block type='primary' style={{ marginTop: 40 }} onClick={() => props.history.push('/dashboard/banca/configurar')}>
 				Configurar Banca
 			</Button>
+
 			<Form
 				layout='horizontal'
 				form={form}
@@ -129,4 +132,4 @@ const IndexPage = () => {
 	);
 };
 
-export default IndexPage;
+export default withRouter(IndexPage);

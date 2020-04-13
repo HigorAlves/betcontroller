@@ -5,6 +5,7 @@ import PrivateRoute from './private.routes';
 
 const Index = lazy(() => import('Pages/Dashboard/User'));
 const Banca = lazy(() => import('Pages/Dashboard/User/Banca'));
+const BancaConfig = lazy(() => import('Pages/Dashboard/User/Banca/config'));
 
 const routes = [
 	{
@@ -16,6 +17,11 @@ const routes = [
 		key: '/dashboard/banca',
 		path: '/dashboard/banca',
 		component: Banca
+	},
+	{
+		key: '/dashboard/banca/configurar',
+		path: '/dashboard/banca/configurar',
+		component: BancaConfig
 	}
 ];
 
