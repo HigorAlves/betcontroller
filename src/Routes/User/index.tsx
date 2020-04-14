@@ -6,8 +6,9 @@ import Loading from 'Pages/Loading';
 import PrivateRoute from './private.routes';
 
 const Index = lazy(() => import('Pages/Dashboard/User'));
-const Banca = lazy(() => import('Pages/Dashboard/User/Banca'));
-const BancaConfig = lazy(() => import('Pages/Dashboard/User/Banca/config'));
+const Bank = lazy(() => import('Pages/Dashboard/User/Banca'));
+const BankConfig = lazy(() => import('Pages/Dashboard/User/Banca/config'));
+const BankTimeline = lazy(() => import('Pages/Dashboard/User/Banca/timeline'));
 
 const routes = [
 	{
@@ -18,12 +19,17 @@ const routes = [
 	{
 		key: '/dashboard/banca',
 		path: '/dashboard/banca',
-		component: Banca
+		component: Bank
 	},
 	{
 		key: '/dashboard/banca/configurar',
 		path: '/dashboard/banca/configurar',
-		component: BancaConfig
+		component: BankConfig
+	},
+	{
+		key: '/dashboard/banca/historico',
+		path: '/dashboard/banca/historico',
+		component: BankTimeline
 	}
 ];
 

@@ -237,10 +237,6 @@ const IndexPage = (props: RouteComponentProps): React.ReactElement => {
 				</Col>
 			</Row>
 
-			<Button block type='primary' style={{ marginTop: 40 }} onClick={(): void => props.history.push('/dashboard/banca/configurar')}>
-				Configurar Banca
-			</Button>
-
 			<Form
 				layout='horizontal'
 				form={form}
