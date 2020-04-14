@@ -20,10 +20,12 @@ export function* Signin(action: AuthenticationActions): any {
 
 		yield Firebase.auth()
 			.currentUser?.getIdTokenResult()
-			.then(Ftoken => {
+			.then(async Ftoken => {
 				if (Ftoken.claims.admin === true) {
-					token = jwt.sign({ admin: true }, 'randompass');
 					role = 'admin';
+					localStorage.setItem('token', token);
+				} else {
+					token = jwt.sign({ user: true }, 'randompass');
 					localStorage.setItem('token', token);
 				}
 			})

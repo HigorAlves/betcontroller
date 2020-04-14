@@ -1,6 +1,8 @@
 import React, { lazy } from 'react';
 import { Switch } from 'react-router-dom';
 
+import Loading from 'Pages/Loading';
+
 import PrivateRoute from './private.routes';
 
 const Index = lazy(() => import('Pages/Dashboard/User'));
@@ -27,7 +29,7 @@ const routes = [
 
 const AdminRoutes = () => (
 	<Switch>
-		<React.Suspense fallback={'<Loading />'}>
+		<React.Suspense fallback={<Loading />}>
 			{routes.map((route, index: number) => (
 				<PrivateRoute exact key={index} {...route} />
 			))}

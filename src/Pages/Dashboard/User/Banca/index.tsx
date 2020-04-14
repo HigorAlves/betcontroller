@@ -13,6 +13,7 @@ const IndexPage = (props: RouteComponentProps) => {
 	const [config, setConfig] = useState<any>({ initialBank: 0, stake: 0, nowBank: 0 });
 	const [data, setData] = useState<any>([]);
 	const [earn, setEarn] = useState(0);
+	const [loading, setLoading] = useState(true);
 	const [form] = Form.useForm();
 
 	async function getData() {
@@ -41,9 +42,11 @@ const IndexPage = (props: RouteComponentProps) => {
 		const aux: any = [];
 		bets.forEach(doc => aux.push({ ...doc.data(), id: doc.id }));
 		setData(aux);
+		setLoading(false);
 	}
 
 	function onFinish(value: any): void {
+		setLoading(true);
 		const uid = localStorage.getItem('uid') as string;
 		const database = Firebase.firestore()
 			.collection('user')
@@ -52,7 +55,7 @@ const IndexPage = (props: RouteComponentProps) => {
 
 		database
 			.add({
-				date: Date.now(),
+				date: Firebase.firestore.FieldValue.serverTimestamp(),
 				bet: value.bet,
 				odd: value.odd,
 				return: value.bet * value.odd,
@@ -64,6 +67,7 @@ const IndexPage = (props: RouteComponentProps) => {
 					{ id: doc.id, bet: value.bet, odd: value.odd, return: value.bet * value.odd, result: 'waiting', date: Date.now() }
 				]);
 				OpenNotification('success', 'Dados cadastrado', '');
+				setLoading(false);
 			})
 			.catch(error => {
 				OpenNotification('error', 'Tente cadastrar novamente', 'para mais detalhes visualize os logs');
@@ -247,7 +251,7 @@ const IndexPage = (props: RouteComponentProps) => {
 				</Row>
 			</Form>
 
-			<Table rowKey={item => item.id} dataSource={data} columns={columns} />
+			<Table rowKey={item => item.id} dataSource={data} columns={columns} loading={loading} />
 		</section>
 	);
 };
