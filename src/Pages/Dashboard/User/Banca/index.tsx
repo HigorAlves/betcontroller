@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
 import { ArrowUpOutlined } from '@ant-design/icons';
-import { Breadcrumb, Statistic, Card, Row, Col, InputNumber, Form, Button, Table, Radio } from 'antd';
+import { Breadcrumb, Statistic, Card, Row, Col, InputNumber, Form, Button, Table, Radio, Input } from 'antd';
 import Firebase from 'Services/firebase';
 
 import OpenNotification from 'Components/Notification';
@@ -59,12 +59,21 @@ const IndexPage = (props: RouteComponentProps) => {
 				bet: value.bet,
 				odd: value.odd,
 				return: value.bet * value.odd,
+				game: value.gameid,
 				result: 'waiting'
 			})
 			.then(doc => {
 				setData([
 					...data,
-					{ id: doc.id, bet: value.bet, odd: value.odd, return: value.bet * value.odd, result: 'waiting', date: Date.now() }
+					{
+						id: doc.id,
+						bet: value.bet,
+						odd: value.odd,
+						return: value.bet * value.odd,
+						result: 'waiting',
+						date: Date.now(),
+						game: value.gameid
+					}
 				]);
 				OpenNotification('success', 'Dados cadastrado', '');
 				setLoading(false);
@@ -151,6 +160,11 @@ const IndexPage = (props: RouteComponentProps) => {
 			key: 'return'
 		},
 		{
+			title: 'Jogo',
+			dataIndex: 'game',
+			key: 'game'
+		},
+		{
 			title: 'Resultado',
 			dataIndex: 'result',
 			key: 'result',
@@ -225,6 +239,11 @@ const IndexPage = (props: RouteComponentProps) => {
 				style={{ marginTop: 20, backgroundColor: '#fff', borderRadius: 5, paddingTop: 10, paddingLeft: 10, height: 50 }}
 			>
 				<Row gutter={16} justify='center' align='middle'>
+					<Col span={4}>
+						<Form.Item name='gameid' label='Jogo'>
+							<Input />
+						</Form.Item>
+					</Col>
 					<Col span={4}>
 						<Form.Item name='bet' label='Valor Aposta'>
 							<InputNumber min={0} onChange={value => setBetValue(value as number)} />
