@@ -28,6 +28,7 @@
 		"quotes": ["error", "single"],
 		"semi": ["error", "always"],
 		"prettier/prettier": "warn",
+		"@typescript-eslint/ban-ts-ignore": 0,
 		"react/jsx-filename-extension": [1, { "extensions": [".js", ".jsx", ".tsx"] }],
 		"react/jsx-indent": [2, "tab"],
 		"@typescript-eslint/no-explicit-any": 0,

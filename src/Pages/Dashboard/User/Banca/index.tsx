@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { RouteComponentProps, withRouter } from 'react-router-dom';
 
-import { ArrowUpOutlined } from '@ant-design/icons';
+import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import { Breadcrumb, Statistic, Card, Row, Col, InputNumber, Form, Button, Table, Radio, Input } from 'antd';
 import Firebase from 'Services/firebase';
 import Colors from 'Theme/Colors';
 
 import OpenNotification from 'Components/Notification';
 
-const IndexPage = (props: RouteComponentProps) => {
+const IndexPage = (props: RouteComponentProps): React.ReactElement => {
 	const [oddValue, setOddValue] = useState(0);
 	const [betValue, setBetValue] = useState(0);
 	const [config, setConfig] = useState<any>({ initialBank: 0, stake: 0, nowBank: 0 });
@@ -17,7 +17,7 @@ const IndexPage = (props: RouteComponentProps) => {
 	const [loading, setLoading] = useState(true);
 	const [form] = Form.useForm();
 
-	async function getData() {
+	async function getData(): Promise<void> {
 		const uid = localStorage.getItem('uid') as string;
 		const database = Firebase.firestore()
 			.collection('user')
@@ -29,12 +29,21 @@ const IndexPage = (props: RouteComponentProps) => {
 			.get()
 			.then(snap => snap.data())) as any;
 
-		setConfig({
-			initialBank: config?.initialBank | 0,
-			stake: (((config?.stake | 0) / 100) * config?.initialBank) | 0,
-			nowBank: config?.nowBank | 0,
-			grow: (-1 * (((config?.initialBank | 0) - (config?.nowBank | 0)) / config?.initialBank) * 100) | 0
-		});
+		if (config) {
+			setConfig({
+				initialBank: config.initialBank,
+				stake: (config.stake / 100) * config.initialBank,
+				nowBank: config?.nowBank,
+				grow: -1 * ((config?.initialBank - config?.nowBank) / config?.initialBank) * 100
+			});
+		} else {
+			setConfig({
+				initialBank: 0,
+				stake: 0,
+				nowBank: 0,
+				grow: 0
+			});
+		}
 
 		const bets = await database
 			.collection('bets')
@@ -85,7 +94,7 @@ const IndexPage = (props: RouteComponentProps) => {
 			});
 	}
 
-	async function handleResult(type: string, doc: string, bet: number, value: number) {
+	async function handleResult(type: string, doc: string, bet: number, value: number): Promise<void> {
 		const uid = localStorage.getItem('uid') as string;
 		const database = Firebase.firestore()
 			.collection('user')
@@ -169,20 +178,19 @@ const IndexPage = (props: RouteComponentProps) => {
 			title: 'Resultado',
 			dataIndex: 'result',
 			key: 'result',
-			// defaultSortOrder: 'descend',
 			//@ts-ignore
-			sorter: (a, b) => a.result.length - b.result.length,
+			sorter: (a, b): any => a.result.length - b.result.length,
 			// eslint-disable-next-line react/display-name
-			render: (result: string, doc: any) => {
+			render: (result: string, doc: any): React.ReactElement => {
 				if (result === 'lose') {
-					return <strong style={{ color: '#EF334A' }}>Perda</strong>;
+					return <strong style={{ color: Colors.red }}>Perda</strong>;
 				} else if (result === 'won') {
-					return <strong style={{ color: '#3f8600' }}>Ganho</strong>;
+					return <strong style={{ color: Colors.green }}>Ganho</strong>;
 				} else {
 					return (
 						<Radio.Group>
-							<Button onClick={() => handleResult('won', doc.id, doc.bet, doc.return)}>Green</Button>
-							<Button danger onClick={() => handleResult('lose', doc.id, doc.bet, 0)}>
+							<Button onClick={(): Promise<void> => handleResult('won', doc.id, doc.bet, doc.return)}>Green</Button>
+							<Button danger onClick={(): Promise<void> => handleResult('lose', doc.id, doc.bet, 0)}>
 								Red
 							</Button>
 						</Radio.Group>
@@ -221,15 +229,15 @@ const IndexPage = (props: RouteComponentProps) => {
 							title='Crescimento'
 							value={config.grow}
 							precision={2}
-							valueStyle={{ color: '#3f8600' }}
-							prefix={<ArrowUpOutlined />}
+							valueStyle={config.grow >= 0 ? { color: Colors.green } : { color: Colors.red }}
+							prefix={config.grow >= 0 ? <ArrowUpOutlined /> : <ArrowDownOutlined />}
 							suffix='%'
 						/>
 					</Card>
 				</Col>
 			</Row>
 
-			<Button block type='primary' style={{ marginTop: 40 }} onClick={() => props.history.push('/dashboard/banca/configurar')}>
+			<Button block type='primary' style={{ marginTop: 40 }} onClick={(): void => props.history.push('/dashboard/banca/configurar')}>
 				Configurar Banca
 			</Button>
 
@@ -247,17 +255,17 @@ const IndexPage = (props: RouteComponentProps) => {
 					</Col>
 					<Col span={4}>
 						<Form.Item name='bet' label='Valor Aposta'>
-							<InputNumber min={0} onChange={value => setBetValue(value as number)} />
+							<InputNumber min={0} onChange={(value): void => setBetValue(value as number)} />
 						</Form.Item>
 					</Col>
 					<Col span={4}>
 						<Form.Item name='odd' label='Valor da ODD'>
-							<InputNumber min={0} onChange={value => setOddValue(value as number)} />
+							<InputNumber min={0} onChange={(value): void => setOddValue(value as number)} />
 						</Form.Item>
 					</Col>
 					<Col span={4}>
 						<p>
-							Retorno esperado <strong style={{ color: 'green' }}>{earn}</strong>
+							Retorno esperado <strong style={{ color: Colors.green }}>{earn}</strong>
 						</p>
 					</Col>
 
@@ -271,7 +279,7 @@ const IndexPage = (props: RouteComponentProps) => {
 				</Row>
 			</Form>
 
-			<Table rowKey={item => item.id} dataSource={data} columns={columns} loading={loading} />
+			<Table rowKey={(item): string => item.id} dataSource={data} columns={columns} loading={loading} />
 		</section>
 	);
 };
