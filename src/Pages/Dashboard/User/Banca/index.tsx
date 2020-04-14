@@ -4,6 +4,7 @@ import { RouteComponentProps, withRouter } from 'react-router-dom';
 import { ArrowUpOutlined } from '@ant-design/icons';
 import { Breadcrumb, Statistic, Card, Row, Col, InputNumber, Form, Button, Table, Radio, Input } from 'antd';
 import Firebase from 'Services/firebase';
+import Colors from 'Theme/Colors';
 
 import OpenNotification from 'Components/Notification';
 
@@ -29,10 +30,10 @@ const IndexPage = (props: RouteComponentProps) => {
 			.then(snap => snap.data())) as any;
 
 		setConfig({
-			initialBank: config.initialBank,
-			stake: (config.stake / 100) * config.initialBank,
-			nowBank: config.nowBank,
-			grow: -1 * ((config.initialBank - config.nowBank) / config.initialBank) * 100
+			initialBank: config?.initialBank | 0,
+			stake: (((config?.stake | 0) / 100) * config?.initialBank) | 0,
+			nowBank: config?.nowBank | 0,
+			grow: (-1 * (((config?.initialBank | 0) - (config?.nowBank | 0)) / config?.initialBank) * 100) | 0
 		});
 
 		const bets = await database
