@@ -41,3 +41,13 @@ export function* Signin(action: AuthenticationActions): any {
 		yield put(loginFailure(error));
 	}
 }
+
+export function* Logout(action: AuthenticationActions): any {
+	try {
+		yield localStorage.removeItem('token');
+		yield localStorage.removeItem('uid');
+		action.payload.callback();
+	} catch (error) {
+		Notification('error', error.code, error.message);
+	}
+}

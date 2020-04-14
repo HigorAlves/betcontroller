@@ -1,7 +1,8 @@
 export enum AuthenticationTypes {
 	LOGIN_REQUEST = '@auth/LOGIN_REQUEST',
 	LOGIN_SUCCESS = '@auth/LOGIN_SUCCESS',
-	LOGIN_FAILURE = '@auth/LOGIN_FAILURE'
+	LOGIN_FAILURE = '@auth/LOGIN_FAILURE',
+	LOGOUT = '@auth/LOGOUT'
 }
 
 export interface Error {
@@ -44,5 +45,9 @@ interface LoginFailure {
 	type: typeof AuthenticationTypes.LOGIN_FAILURE;
 	payload: Error;
 }
+interface Logout {
+	type: typeof AuthenticationTypes.LOGOUT;
+	payload: any;
+}
 
-export type AuthenticationActions = LoginRequestAction | LoginSucces | LoginFailure;
+export type AuthenticationActions = LoginRequestAction | LoginSucces | LoginFailure | Logout;

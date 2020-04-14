@@ -16,6 +16,8 @@ const reducer: Reducer<AuthenticationState> = (state = INITIAL_STATE, action) =>
 			return { ...state, loading: false, user: action.payload };
 		case Types.LOGIN_FAILURE:
 			return { ...state, loading: false, error: action.payload };
+		case Types.LOGOUT:
+			return { user: {}, loading: false, error: { code: '', message: '' } };
 		default:
 			return state;
 	}

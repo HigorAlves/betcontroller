@@ -22,3 +22,10 @@ export const loginFailure = (error: Error): AuthenticationActions => {
 		payload: error
 	};
 };
+
+export const logout = (callback: any): AuthenticationActions => {
+	return {
+		type: AuthenticationTypes.LOGOUT,
+		payload: callback
+	};
+};
