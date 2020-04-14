@@ -42,7 +42,7 @@ const BankTimeline = (): React.ReactElement => {
 			<Row justify='center'>
 				<Col md={8} sm={24}>
 					<Timeline>
-						{data
+						{data //eslint-disable-next-line
 							? data.map((item: any): any => {
 								if (item.result === 'lose') {
 									return (
@@ -57,7 +57,7 @@ const BankTimeline = (): React.ReactElement => {
 				</Col>
 				<Col md={8} sm={24}>
 					<Timeline>
-						{data
+						{data //eslint-disable-next-line
 							? data.map((item: any): any => {
 								if (item.result === 'won') {
 									return (
@@ -72,7 +72,7 @@ const BankTimeline = (): React.ReactElement => {
 				</Col>
 				<Col md={8} sm={24}>
 					<Timeline>
-						{data
+						{data //eslint-disable-next-line
 							? data.map((item: any): any => {
 								if (item.result === 'waiting') {
 									return (

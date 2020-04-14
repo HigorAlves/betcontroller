@@ -13,11 +13,15 @@ const ROUTES: React.FC = (): ReactElement => (
 				<PasswordReset />
 			</Route>
 
-			<Route exact path='/'>
+			<Route exact path='/login'>
 				<Login />
 			</Route>
 
 			<Route path='/dashboard'>
+				<Dashboard />
+			</Route>
+
+			<Route path='/'>
 				<Dashboard />
 			</Route>
 
